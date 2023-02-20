@@ -1,37 +1,66 @@
-const {ApolloServer,gql} = require('apollo-server')
+const { ApolloServer, gql } = require("apollo-server");
 
-
-
-// Scalar Type =>  String , Int, Float, Boolean, ID 
 const typeDefs = gql`
-type Query{
-    hello:String
-    numberOfCar:Int
+  type Query {
+    name: String
+    age: Int
+    designation: String
+    language: String
+    technology: String
+    products: [Product!]!
+  }
+  type Product {
+    name: String
+    description: String
+    quantity: Int
     price: Float
-    engineRunning:Boolean
-}
-`
+    onSale: Boolean
+  }
+`;
 
 const resolvers = {
-    Query: {
-        hello: () => {
-            return "World...!!!"
+  Query: {
+    name: () => {
+      return "Khairul";
+    },
+    age: () => {
+      return 27;
+    },
+    designation: () => {
+      return "Junior Software Engineer";
+    },
+    language: () => {
+      return "javascript";
+    },
+    technology: () => {
+      return "React-Native";
+    },
+    products: () => {
+      return [
+        {
+          name: "Bike",
+          description: "Mountain Bike",
+          quantity: 20,
+          price: 1500.5,
+          onSale: true,
         },
-        numberOfCar: () => {
-            return 30
+        {
+          name: "Car",
+          description: "Sports Car",
+          quantity: 10,
+          price: 2500.5,
+          onSale: true,
         },
-        price:()=>{
-            return 550000.50
-        },
-        engineRunning:()=> true
-    }
-}
+      ];
+    },
+  },
+};
 
 const server = new ApolloServer({
-    typeDefs,
-    resolvers
-})
+  typeDefs,
+  resolvers,
+});
 
-server.listen().then(({url})=>{
-    console.log("Server is Started "+ url)
-})
+server.listen().then(({ url }) => {
+  console.log("Server Listening on Port:" + url);
+});
