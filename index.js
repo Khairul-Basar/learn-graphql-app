@@ -127,24 +127,7 @@ const resolvers = {
     },
     engineRunning: () => true,
     products: () => {
-      return [
-        {
-          name: "Baseball Gloves",
-          description: "Professional catcher gloves",
-          quantity: 745,
-          price: 77.0,
-          image: "img-8",
-          onSale: true,
-        },
-        {
-          name: "Soccer Ball",
-          description: "Round ball",
-          quantity: 734,
-          price: 93.44,
-          image: "img-9",
-          onSale: false,
-        },
-      ];
+      return products;
     },
   },
 };
