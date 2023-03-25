@@ -101,15 +101,16 @@ const typeDefs = gql`
     numberOfCar: Int
     price: Float
     engineRunning: Boolean
-    products: [Products!]!
+    products: [Product!]!
   }
+
   type Product {
-    name: String
-    description: String
-    quantity: Int
-    price: Float
-    image: String
-    onSale: Boolean
+    name: String!
+    description: String!
+    quantity: Int!
+    price: Float!
+    image: String!
+    onSale: Boolean!
   }
 `;
 
@@ -126,26 +127,22 @@ const resolvers = {
     },
     engineRunning: () => true,
     products: () => {
-      [
+      return [
         {
-          id: "b553085a-a7e0-4c9b-8a12-f971919c3683",
           name: "Baseball Gloves",
           description: "Professional catcher gloves",
           quantity: 745,
           price: 77.0,
           image: "img-8",
           onSale: true,
-          categoryId: "d914aec0-25b2-4103-9ed8-225d39018d1d",
         },
         {
-          id: "47bf3941-9c8b-42c0-9c72-7f3985492a5b",
           name: "Soccer Ball",
           description: "Round ball",
           quantity: 734,
           price: 93.44,
           image: "img-9",
           onSale: false,
-          categoryId: "d914aec0-25b2-4103-9ed8-225d39018d1d",
         },
       ];
     },
