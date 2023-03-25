@@ -102,6 +102,7 @@ const typeDefs = gql`
     price: Float
     engineRunning: Boolean
     products: [Product!]!
+    product(id: ID!): Product
   }
 
   type Product {
@@ -128,6 +129,13 @@ const resolvers = {
     engineRunning: () => true,
     products: () => {
       return products;
+    },
+    product: (parent, args, context) => {
+      const productId = args.id;
+      console.log(productId);
+      const product = products.find((product) => product.id === productId);
+      if (!product) return null;
+      return product;
     },
   },
 };
