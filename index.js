@@ -95,6 +95,21 @@ const products = [
   },
 ];
 
+let categories = [
+  {
+    id: "c01b1ff4-f894-4ef2-b27a-22aacc2fca70",
+    name: "Kitchen",
+  },
+  {
+    id: "34115aac-0ff5-4859-8f43-10e8db23602b",
+    name: "Garden",
+  },
+  {
+    id: "d914aec0-25b2-4103-9ed8-225d39018d1d",
+    name: "Sports",
+  },
+];
+
 const typeDefs = gql`
   type Query {
     hello: String
@@ -103,9 +118,12 @@ const typeDefs = gql`
     engineRunning: Boolean
     products: [Product!]!
     product(id: ID!): Product
+    categories: [Category!]!
+    category(id: ID!): Category
   }
 
   type Product {
+    id: ID!
     name: String!
     description: String!
     quantity: Int!
@@ -113,29 +131,36 @@ const typeDefs = gql`
     image: String!
     onSale: Boolean!
   }
+
+  type Category {
+    id: ID!
+    name: String!
+  }
 `;
 
 const resolvers = {
   Query: {
-    hello: () => {
+    hello: (parent, args, context) => {
       return "World...!!!";
     },
-    numberOfCar: () => {
+    numberOfCar: (parent, args, context) => {
       return 30;
     },
-    price: () => {
+    price: (parent, args, context) => {
       return 550000.5;
     },
     engineRunning: () => true,
-    products: () => {
+    products: (parent, args, context) => {
       return products;
     },
     product: (parent, args, context) => {
-      const productId = args.id;
-      console.log(productId);
-      const product = products.find((product) => product.id === productId);
-      if (!product) return null;
-      return product;
+      const { id } = args;
+      return products.find((product) => product.id === id);
+    },
+    categories: (parent, args, context) => categories,
+    category: (parent, args, context) => {
+      const { id } = args;
+      return categories.find((category) => category.id === id);
     },
   },
 };
