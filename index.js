@@ -1,7 +1,4 @@
 const { ApolloServer, gql } = require("apollo-server");
-
-// Scalar Type =>  String , Int, Float, Boolean, ID
-
 const products = [
   {
     id: "53a0724c-a416-4cac-ae45-bfaedce1f147",
@@ -112,69 +109,62 @@ let categories = [
 
 const typeDefs = gql`
   type Query {
-    hello: String
-    numberOfCar: Int
-    price: Float
-    engineRunning: Boolean
+    name: String
+    age: Int
+    designation: String
+    language: String
+    technology: String
     products: [Product!]!
     product(id: ID!): Product
     categories: [Category!]!
     category(id: ID!): Category
   }
-
   type Product {
-    id: ID!
     name: String!
     description: String!
+    image: String!
     quantity: Int!
     price: Float!
-    image: String!
     onSale: Boolean!
-    category: Category
   }
-
   type Category {
     id: ID!
     name: String!
-    products: [Product!]!
   }
 `;
 
 const resolvers = {
   Query: {
-    hello: (parent, args, context) => {
-      return "World...!!!";
+    name: () => {
+      return "Khairul";
     },
-    numberOfCar: (parent, args, context) => {
-      return 30;
+    age: () => {
+      return 27;
     },
-    price: (parent, args, context) => {
-      return 550000.5;
+    designation: () => {
+      return "Junior Software Engineer";
     },
-    engineRunning: () => true,
-    products: (parent, args, context) => {
+    language: () => {
+      return "javascript";
+    },
+    technology: () => {
+      return "React-Native";
+    },
+    products: () => {
       return products;
     },
-    product: (parent, args, context) => {
-      const { id } = args;
-      return products.find((product) => product.id === id);
+    product: (parent, arg, context) => {
+      const { id } = arg;
+      const product = products.find((product) => product.id === id);
+      if (!product) return null;
+      return product;
     },
-    categories: (parent, args, context) => categories,
+    categories: () => {
+      return categories;
+    },
     category: (parent, args, context) => {
       const { id } = args;
       return categories.find((category) => category.id === id);
-    },
-  },
-  Category: {
-    products: (parent, args, context) => {
-      const categoryId = parent.id;
-      return products.filter((product) => product.categoryId === categoryId);
-    },
-  },
-  Product: {
-    category: (parent, args, context) => {
-      const categoryId = parent.categoryId;
-      return categories.find((category) => category.id === categoryId);
     },
   },
 };
@@ -185,5 +175,5 @@ const server = new ApolloServer({
 });
 
 server.listen().then(({ url }) => {
-  console.log("Server is Started " + url);
+  console.log("Server Listening on Port:" + url);
 });
